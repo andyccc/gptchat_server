@@ -1,0 +1,58 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+
+  <!-- for dev test  -->
+  <!-- use: node run.js test/initial-data-test.mysql.xml -->
+  <changeSet author="yansheng.ao (generated)" id="1647574531062-900">
+    <sql>
+        INSERT INTO `user` 
+          ( `user_id`, `mid`, `user_name`, `password`, `first_name`, `last_name`, `time_created`, `time_updated`, `status` )
+        VALUES
+          ( 4, '0', 'citcon_finance', '840aeb1cde423a19927f9d9def24eeb2', 'Citcon Finance', NULL, '2022-03-15 07:56:49', NULL, 'A' );
+        <comment> test user account, citcon_finance </comment>
+    </sql>
+    <sql>
+        INSERT INTO `user` 
+          ( `user_id`, `mid`, `user_name`, `password`, `first_name`, `last_name`, `time_created`, `time_updated`, `status` )
+        VALUES
+          ( 5, '1003', 'citcon_read', 'e1a8f8d6acfe6b22ac752513cf2fef42', 'Citcon Read', NULL, '2022-03-15 07:56:49', NULL, 'A' );
+        <comment> test user account, citcon_read </comment>
+    </sql>
+    <sql>
+        INSERT INTO `user` 
+          ( `user_id`, `mid`, `user_name`, `password`, `first_name`, `last_name`, `time_created`, `time_updated`, `status` )
+        VALUES
+          ( 6, '1003', 'viva_read', '8c0952551a5050cfe0efcf0e4e8681c7', 'Viva Read', NULL, '2022-03-15 07:56:49', NULL, 'A' );
+        <comment> test user account, viva_read </comment>
+    </sql>
+
+    <rollback>
+        <delete tableName="user">
+            <where>user_id = 4 or user_id = 5 or user_id = 6</where>
+        </delete>
+    </rollback>
+  </changeSet>
+
+  <changeSet author="yansheng.ao (generated)" id="1647574531062-900">
+    <sql>
+      INSERT INTO `user_role` (`user_id`, `role_id`) VALUES (4, 2);
+    </sql> 
+    <sql>
+      INSERT INTO `user_role` (`user_id`, `role_id`) VALUES (5, 3);
+    </sql>
+    <sql>   
+      INSERT INTO `user_role` (`user_id`, `role_id`) VALUES (6, 5);
+    </sql>  
+
+    <rollback>
+        <delete tableName="user_role">
+            <where>user_id = 4 or user_id = 5 or user_id = 6 </where>
+        </delete>
+    </rollback>
+  </changeSet>
+
+
+ 
+
+</databaseChangeLog>

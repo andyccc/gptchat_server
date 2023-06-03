@@ -1,0 +1,36 @@
+version: '1'
+services:
+  
+  mysql:
+    image: library/mysql:5.6.51
+    container_name: mysql
+    # platform: linux/x86_64
+    ports:
+      - 3306:3306
+    privileged: true
+    restart: always 
+    environment:
+      MYSQL_ROOT_PASSWORD: Gptserver@.#$&2023
+      TZ: Asia/Shanghai
+    volumes:
+      - ./mysql/my.cnf:/etc/my.cnf
+      #- ./mysql/mysql.sock:/var/lib/mysql/mysql.sock
+      - ./mysql/data:/var/lib/mysql
+      - ./mysql/conf.d:/etc/mysql/conf.d
+      - ./mysql/logs:/var/log/mysql
+      - /etc/localtime:/etc/localtime
+    networks:
+      app_network:
+        aliases:
+          - mysql
+
+     
+networks:
+  # app_network:
+  #   ipam:
+  #     driver: default
+  #     config:
+  #       - subnet: "192.168.50.0/24"
+  #         gateway: "192.168.50.20"
+  app_network:
+
