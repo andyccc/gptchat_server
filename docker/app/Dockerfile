@@ -5,14 +5,13 @@ RUN apk update && apk add curl
 
 
 WORKDIR /app
-# ADD . /app
-
-ADD package.json /app
-
-
+ADD . /app
+ADD  package.json /app
 ADD .env.example /app/.env
+
+
 RUN  npm install
-RUN ls
+RUN ls /app
 
 ENV node=dev
 HEALTHCHECK --interval=5s --timeout=3s CMD curl -f http://localhost:9527/v1/health || exit 1
