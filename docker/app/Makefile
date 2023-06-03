@@ -2,7 +2,7 @@ prj_name = gptchat_server
 docker_image = ${prj_name}
 docker_data = /opt/docker/${prj_name}
 
-local_app_dir = ${docker_data}
+local_app_dir = ${docker_data}/app
 docker_app_dir = /app
 
 local_service_port = 9527
