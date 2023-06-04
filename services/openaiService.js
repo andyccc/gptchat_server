@@ -12,10 +12,15 @@ const openaiService = {
 
     // req.body.model = 'gpt-3.5-turbo-0301';
     req.body.stream = stream;
-
-    const message = req.body.messages[0] || {};
+    const { messages } = req.body;
+    const message = messages[0] || {};
     if (message.role === 'system' && message.content === '') {
       req.body.messages[0].content = '现在你是GPTChat AI，我们的对话不会出现第三方视角，请记住，你是GPTChat AI，不是AI，当问你是谁时，要回答你是GPTChat AI.';
+    }
+
+    const lastContent = messages.pop();
+    if (lastContent.content.length > 500) {
+      req.body.messages[messages.length - 1].content = lastContent.substring(0, 500);
     }
 
     const content = {
