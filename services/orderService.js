@@ -7,16 +7,12 @@
 /* eslint-disable camelcase */
 
 const verifyReceipt = require('node-apple-receipt-verify');
-const fs = require('fs');
-const crypto = require('crypto');
-const pkcs7 = require('node-pkcs7');
-const jws = require('jws');
 const jwt = require('jsonwebtoken');
 const { ERROR_CODE } = require('../error/error_code');
 const daoOrder = require('../models/daoOrder');
 const daoUser = require('../models/daoUser');
 const responseHelper = require('../utils/response_helper');
-const { convertTimestamp, timeAddMonths, timeAddYears } = require('../common/date_client');
+const { timeAddMonths, timeAddYears } = require('../common/date_client');
 const { logger } = require('../utils/logger');
 
 const verifyReceiptEnvironment = process.env.NODE_ENV === 'development' ? 'sandbox' : 'production';

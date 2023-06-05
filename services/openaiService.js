@@ -10,12 +10,17 @@ const openaiService = {
 
     const stream = false;
 
-    // req.body.model = 'gpt-3.5-turbo-0301';
+    if (req.body.model === 'gpt-4.0') {
+      req.body.model = 'gpt-3.5-turbo-0301';
+    } else {
+      req.body.model = 'gpt-3.5-turbo';
+    }
+
     req.body.stream = stream;
     const { messages } = req.body;
     const message = messages[0] || {};
     if (message.role === 'system' && message.content === '') {
-      req.body.messages[0].content = '现在你是GPTChat AI，我们的对话不会出现第三方视角，请记住，你是GPTChat AI，不是AI，当问你是谁时，要回答你是GPTChat AI.';
+      req.body.messages[0].content = '现在你是GBT Chat AI，我们的对话不会出现第三方视角，请记住，你是GBT Chat AI，不是AI，当问你是谁时，要回答你是GBT Chat AI.';
     }
 
     const lastContent = messages.pop();
