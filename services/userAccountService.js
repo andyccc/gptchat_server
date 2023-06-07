@@ -7,6 +7,7 @@ const { CustomError } = require('../error/error');
 const daoUser = require('../models/daoUser');
 const { ERROR_CODE } = require('../error/error_code');
 const { env } = require('../config');
+const { logger } = require('../utils/logger');
 
 const BackendUserAccount = {
 
@@ -49,8 +50,11 @@ const BackendUserAccount = {
       resultUser.product_id = user.product_id;
     }
 
+    logger.info(`login result: ${JSON.stringify(resultUser)}`);
+
     return responseHelper(res).success({
       code: ERROR_CODE.SUCCESS.code,
+      stream: true,
       access_token,
       access_expire,
       refresh_after,

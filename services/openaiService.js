@@ -8,7 +8,9 @@ const openaiService = {
     // check expire date
     await userAccountService.checkUserExpire(req, res);
 
-    const stream = false;
+    const userId = req.auth.id;
+
+    const stream = req.body.stream || false;
 
     if (req.body.model === 'gpt-4.0') {
       req.body.model = 'gpt-3.5-turbo-0301';
@@ -16,16 +18,19 @@ const openaiService = {
       req.body.model = 'gpt-3.5-turbo';
     }
 
-    req.body.stream = stream;
+    // req.body.max_tokens = 250;
+
+    req.body.user = `${userId}`;
+
     const { messages } = req.body;
     const message = messages[0] || {};
     if (message.role === 'system' && message.content === '') {
-      req.body.messages[0].content = '现在你是GBT Chat AI，我们的对话不会出现第三方视角，请记住，你是GBT Chat AI，不是AI，当问你是谁时，要回答你是GBT Chat AI.';
+      req.body.messages[0].content = '提示:现在你是ChatGBT，我们的对话不会出现第三方视角，请记住，你是ChatGBT，不是AI，当问你是谁时，要回答你是ChatGBT。';
     }
 
-    const lastContent = messages.pop();
-    if (lastContent.content.length > 500) {
-      req.body.messages[messages.length - 1].content = lastContent.substring(0, 500);
+    const lastContent = messages[messages.length - 1];
+    if (lastContent.content.length > 1000) {
+      req.body.messages[messages.length - 1].content = lastContent.substring(0, 1000);
     }
 
     const content = {
