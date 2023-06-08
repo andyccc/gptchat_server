@@ -1,12 +1,12 @@
 const fetch = require('node-fetch');
-const userAccountService = require('./userAccountService');
+const userService = require('./userService');
 const { logger } = require('../utils/logger');
 const daoUserChats = require('../models/daoUserChats');
 
 const openaiService = {
   completions: async (req, res) => {
     // check expire date
-    await userAccountService.checkUserExpire(req, res);
+    await userService.checkUserExpire(req, res);
 
     const userId = req.auth.id;
 
@@ -25,7 +25,7 @@ const openaiService = {
     const { messages } = req.body;
     const message = messages[0] || {};
     if (message.role === 'system' && message.content === '') {
-      req.body.messages[0].content = '提示:现在你是ChatGBT，我们的对话不会出现第三方视角，请记住，你是ChatGBT，不是AI，当问你是谁时，要回答你是ChatGBT。';
+      req.body.messages[0].content = '提示:现在你是Chat AI，我们的对话不会出现第三方视角，请记住，你是Chat AI，不是AI，当问你是谁时，要回答你是Chat AI。';
     }
 
     const lastContent = messages[messages.length - 1];

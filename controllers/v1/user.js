@@ -1,6 +1,6 @@
 const { logger } = require('../../utils/logger');
 const validationService = require('../../services/validationService');
-const backendUserAccount = require('../../services/userAccountService');
+const backendUserAccount = require('../../services/userService');
 
 const user = {
 

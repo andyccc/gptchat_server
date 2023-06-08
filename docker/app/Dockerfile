@@ -10,7 +10,8 @@ ADD  package.json /app
 ADD .env.example /app/.env
 
 
-RUN  npm install
+# RUN  npm install
+RUN  npm install --production
 RUN ls /app
 
 ENV node=dev

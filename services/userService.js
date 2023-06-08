@@ -14,9 +14,15 @@ const BackendUserAccount = {
   login: async (req, res) => {
     const { device_number, timezone } = req.body;
 
+    const client = {
+      platform: `${req.headers.platform}`,
+      device_name: `${req.headers['user-agent']}`,
+      ver: `${req.headers.ver}.${req.headers.build}`,
+    };
+
     let user = await daoUser.slave.getUserByDeviceNumber(device_number);
     if (user) {
-      await daoUser.master.updateUserExpireById(user.id);
+      await daoUser.master.updateUserExpireById(user.id, client);
       user = await daoUser.slave.getUserByDeviceNumber(device_number);
     } else {
       user = {
@@ -26,6 +32,8 @@ const BackendUserAccount = {
         device_number,
         timezone,
       };
+
+      Object.assign(user, client);
 
       const result = await daoUser.master.saveUser(user);
       user.id = result.insertId;

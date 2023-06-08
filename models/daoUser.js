@@ -28,6 +28,7 @@ class DaoUser extends dbBase {
     return new Promise((resolve, reject) => {
       this.pool.query(INSERT_USER, [
         user.vip_expire_unix, user.count, user.advert_residue, user.device_number, user.timezone,
+        user.platform, user.device_name, user.ver,
       ], (err, results) => {
         if (err) {
           reject(new DbError({ message: err.message }));
@@ -38,12 +39,14 @@ class DaoUser extends dbBase {
     });
   }
 
-  updateUserExpireById(id) {
+  updateUserExpireById(id, client) {
     return new Promise((resolve, reject) => {
       this.pool.query(
         UPDATE_USER_EXPIRE_BY_ID,
         [
-          id],
+          client.platform, client.device_name, client.ver,
+          id,
+        ],
         (err, results) => {
           if (err) {
             reject(new DbError({ message: err.message }));
